@@ -1,6 +1,6 @@
 module BitManipulations
 
-export Float
+export as
 
 abstract type Float <: AbstractFloat end
 
