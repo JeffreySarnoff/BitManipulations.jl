@@ -15,3 +15,16 @@ filterlo(::Type{T1}, n::T2) where {T1<:Integer, T2<:Integer} =
 filterhi(n::T) where {T<:Integer} = masklo(8sizeof(T) - n)
 filterhi(::Type{T1}, n::T2) where {T1<:Integer, T2<:Integer} =
     masklo(8sizeof(T1) - n)
+
+ror(x::UInt64, k::Integer) = (x >>> (0x3f &  k)) | (x << (0x3f & -k))
+rol(x::UInt64, k::Integer) = (x >>> (0x3f & -k)) | (x << (0x3f &  k))
+
+ror(x::UInt32, k::Integer) = (x >>> (0x1f &  k)) | (x << (0x1f & -k))
+rol(x::UInt32, k::Integer) = (x >>> (0x1f & -k)) | (x << (0x1f &  k))
+
+ror(x::UInt16, k::Integer) = (x >>> (0x0f &  k)) | (x << (0x0f & -k))
+rol(x::UInt16, k::Integer) = (x >>> (0x0f & -k)) | (x << (0x0f &  k))
+
+ror(x::UInt8, k::Integer)  = (x >>> (0x07 &  k)) | (x << (0x07 & -k))
+rol(x::UInt8, k::Integer)  = (x >>> (0x07 & -k)) | (x << (0x07 &  k))
+
