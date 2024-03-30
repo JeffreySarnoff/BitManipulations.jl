@@ -16,3 +16,4 @@ Provide `x` recast the size-matched concrete type <: AbstractType
 Base.@nospecializeinfer as(::Type{T}, @nospecialize(x::T)) where {T} = x
 
 as(::Type{Unsigned}, @nospecialize(x::Signed)) = unsigned(x)
+as(::Type{Signed}, @nospecialize(x::Unsigned)) = signed(x)
