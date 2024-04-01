@@ -1,13 +1,13 @@
 module BitManipulations
 
-export Float, as, bitsof,
-       BitInteger, bitreverse, bitrotate # from Base
+export Float, as, bitsof, bit_string,
+       BitInteger, bitreverse, bitrotate, bitstring # from Base
 
-using Base: BitInteger, bitreverse, bitrotate
+using Base: BitInteger, bitreverse, bitrotate, bitstring
 
 abstract type Float <: AbstractFloat end
 
-include("type/bitsof.jl")
+include("type/support.jl")
 include("type/conversions.jl")
 
 end  # BitManipulations
