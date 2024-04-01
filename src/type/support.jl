@@ -6,6 +6,6 @@ end
 
 function bit_string(x::T) where {T<:BitInteger}
     s = Base.bitstring(x)
-    string("0b_", join(s[i:i+3] for i=1:4:bitsof(T)))
+    string("0b", join(s[i:i+3] for i=1:4:bitsof(T)))
 end
 
