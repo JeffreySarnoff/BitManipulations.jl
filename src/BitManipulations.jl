@@ -1,8 +1,9 @@
 module BitManipulations
 
-export Float, as, bitsof
+export Float, as, bitsof,
+       BitInteger, bitreverse, bitrotate # from Base
 
-using Base: BitInteger
+using Base: BitInteger, bitreverse, bitrotate
 
 abstract type Float <: AbstractFloat end
 
