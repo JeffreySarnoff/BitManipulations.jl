@@ -2,11 +2,11 @@ module BitManipulations
 
 export Float, as, bitsof
 
+using Base: BitInteger
+
 abstract type Float <: AbstractFloat end
 
-bitsof(::Type{T}) where {T <: BitInteger} = sizeof(T) << 3
-bitsof(x::T) where {T <: BitInteger} = sizeof(T) << 3
-
+include("type/bitsof.jl")
 include("type/conversions.jl")
 
 end  # BitManipulations

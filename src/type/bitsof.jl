@@ -1,5 +1,5 @@
 for (T,N) in ((UInt8, 8), (UInt16, 16), (UInt32, 32), (UInt64, 64), (UInt128, 128),
-              (Int8, 8), (Int16, 16), (Int32, 32), (Int64, 64), (Int128, 128),
-              (Float16, 16), (Float32, 32), (Float64, 64))
-    @eval bitsof(::Type{$T}) = $N
+              (Int8, 8), (Int16, 16), (Int32, 32), (Int64, 64), (Int128, 128))
+    @eval bitsof(::Type{$T}) = UInt8($N)
+    @eval bitsof(x::$T) = UInt8($N)
 end
