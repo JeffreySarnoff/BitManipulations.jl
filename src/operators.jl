@@ -32,9 +32,8 @@ clear_left_one(x::T) where {T<:BitInteger} = x & ~(leading_one(x))
 clear_right_one(x::T) where {T<:BitInteger} = x & ~(trailing_one(x))
 
 leading_one(x::T) where {T<:BitInteger} = 
-    one(T) << (bitsof(T) - Base.ctlz_int(x) - one(T))
+    one(T) << ((bitsof(T) - one(Int16)) - Base.ctlz_int(x))
 
 trailing_one(x::T) where {T<:BitInteger} = 
-    one(T) << (bitsof(T) - Base.cttz_int(x) - one(T))
+    one(T) << ((bitsof(T) - one(Int16)) -  Base.cttz_int(x))
 
-    
