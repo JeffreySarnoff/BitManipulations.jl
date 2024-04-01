@@ -28,8 +28,8 @@ rol(x::UInt16, k::Integer) = (x >>> (0x0f & -k)) | (x << (0x0f &  k))
 ror(x::UInt8, k::Integer)  = (x >>> (0x07 &  k)) | (x << (0x07 & -k))
 rol(x::UInt8, k::Integer)  = (x >>> (0x07 & -k)) | (x << (0x07 &  k))
 
-clear_left_one(x::T) where {T<:BitInteger} = x & ~(leading_one(x))
-clear_right_one(x::T) where {T<:BitInteger} = x & ~(trailing_one(x))
+clear_ms1b(x::T) where {T<:BitInteger} = x & ~(leading_one(x))
+clear_ls1b(x::T) where {T<:BitInteger} = x & ~(trailing_one(x))
 
 leading_one(x::T) where {T<:BitInteger} = 
     one(T) << ((bitsof(T) - one(Int16)) - Base.ctlz_int(x))
