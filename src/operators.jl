@@ -33,6 +33,18 @@ trailing_one(x::T) where {T<:BitInteger} =
     bitreverse, bitrotate,
     leading_zeros, leading_ones,
     trailing_zeros, trailing_ones, 
-    count_ones, count_zeros
+    count_ones, count_zeros,
+    bswap
 =#
+#=
 
+julia> bswap(0x12)
+0x12
+julia> bswap(0x0102)
+0x0201
+julia> bswap(0x01020304)
+0x04030201
+julia> bswap(0x0102030405060708)
+0x0807060504030201
+
+=#

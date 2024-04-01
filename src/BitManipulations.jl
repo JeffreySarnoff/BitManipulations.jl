@@ -1,9 +1,9 @@
 module BitManipulations
 
 export Float, as, bitsof, bit_string,
-       BitInteger, bitreverse, bitrotate, bitstring # from Base
+       BitInteger # from Base
 
-using Base: BitInteger, bitreverse, bitrotate, bitstring
+using Base: BitInteger
 
 abstract type Float <: AbstractFloat end
 
