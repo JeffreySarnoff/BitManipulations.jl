@@ -34,10 +34,24 @@ function minmaxabs(xx::Float16, yy::Float16)::Tuple{Float16,Float16}
     (reinterpret(Float16, y + adj), reinterpret(Float16, x - adj))
 end
 
+# swaps sign
 function minmaxmag(xx::Float16, yy::Float16)::Tuple{Float16,Float16}
     x = reinterpret(Int16, abs(xx))
     y = reinterpret(Int16, abs(yy))
     xmy = x - y
     adj = xmy & (xmy >> 15)
     copysign(reinterpret(Float16, y + adj), yy), copysign(reinterpret(Float16, x - adj), xx)
+end
+
+# swaps sign
+for (I,F,N) in ((:Int16, :Float16, 15%Int16), (:Int32, :Float32, 31%Int32), (:Int64, :Float64, 63%Int64))
+  @eval begin
+    function minmaxmag(xx::$F, yy::$F)
+        x = reinterpret($I, abs(xx))
+        y = reinterpret($I, abs(yy))
+        xmy = x - y
+        adj = xmy & (xmy >> $N)
+        copysign(reinterpret($F, y + adj), yy), copysign(reinterpret($F, x - adj), xx)
+    end
+  end
 end
