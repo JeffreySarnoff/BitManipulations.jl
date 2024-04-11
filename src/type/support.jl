@@ -26,7 +26,7 @@ end
 
 # https://github.com/randomascii/blogstuff/blob/main/FloatingPoint/CompareAsInt/CompareAsInt.cpp
 
-function minmaxabs(xx::Float16, yy::Float16)::Tuple{Float16,Float16}
+@inline function minmaxabs(xx::Float16, yy::Float16)::Tuple{Float16,Float16}
     x = reinterpret(Int16, abs(xx))
     y = reinterpret(Int16, abs(yy))
     xmy = x - y
@@ -34,24 +34,33 @@ function minmaxabs(xx::Float16, yy::Float16)::Tuple{Float16,Float16}
     (reinterpret(Float16, y + adj), reinterpret(Float16, x - adj))
 end
 
-# swaps sign
-function minmaxmag(xx::Float16, yy::Float16)::Tuple{Float16,Float16}
-    x = reinterpret(Int16, abs(xx))
-    y = reinterpret(Int16, abs(yy))
-    xmy = x - y
-    adj = xmy & (xmy >> 15)
-    copysign(reinterpret(Float16, y + adj), yy), copysign(reinterpret(Float16, x - adj), xx)
-end
-
-# swaps sign
-for (I,F,N) in ((:Int16, :Float16, 15%Int16), (:Int32, :Float32, 31%Int32), (:Int64, :Float64, 63%Int64))
+for (I, F, N) in ((:Int16, :Float16, 15 % Int16), (:Int32, :Float32, 31 % Int32), (:Int64, :Float64, 63 % Int64))
   @eval begin
     function minmaxmag(xx::$F, yy::$F)
-        x = reinterpret($I, abs(xx))
+        axx = abs(xx)
+        x = reinterpret($I, axx)
         y = reinterpret($I, abs(yy))
         xmy = x - y
         adj = xmy & (xmy >> $N)
-        copysign(reinterpret($F, y + adj), yy), copysign(reinterpret($F, x - adj), xx)
+        mn = reinterpret($F, y + adj)
+        mx = reinterpret($F, x - adj)
+        if mn === axx 
+            (copysign(mn, xx), copysign(mx, yy))
+        else
+            (copysign(mn, yy), copysign(mx, xx))
+        end
     end
   end
+end
+
+@inline function two_hilo_sum(a::T, b::T) where {T}
+    hi = a + b
+    lo = b - (hi - a)
+    return hi, lo
+end
+
+@inline function two_lohi_sum(a::T, b::T) where {T}
+    hi = b + a
+    lo = a - (hi - b)
+    return hi, lo
 end
