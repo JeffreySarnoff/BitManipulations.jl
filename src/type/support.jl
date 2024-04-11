@@ -34,21 +34,28 @@ end
     (reinterpret(Float16, y + adj), reinterpret(Float16, x - adj))
 end
 
+@inline function minmaxmag(xx::Float16, yy::Float16)
+    x = reinterpret(Int16, abs(xx))
+    y = reinterpret(Int16, abs(yy))
+    xmy = x - y
+    if signbit(xmy)
+        xx, yy = yy, xx
+    end
+    adj = xmy & (xmy >> 15)
+    copysign(reinterpret(Float16, y + adj), yy), copysign(reinterpret(Float16, x - adj), xx)
+end
+
+
 for (I, F, N) in ((:Int16, :Float16, 15 % Int16), (:Int32, :Float32, 31 % Int32), (:Int64, :Float64, 63 % Int64))
   @eval begin
     function minmaxmag(xx::$F, yy::$F)
-        axx = abs(xx)
-        x = reinterpret($I, axx)
+        x = reinterpret($I, abs(xx))
         y = reinterpret($I, abs(yy))
         xmy = x - y
-        adj = xmy & (xmy >> $N)
-        mn = reinterpret($F, y + adj)
-        mx = reinterpret($F, x - adj)
-        if mn === axx 
-            (copysign(mn, xx), copysign(mx, yy))
-        else
-            (copysign(mn, yy), copysign(mx, xx))
+        if signbit(xmy)
+            xx, yy = yy, xx
         end
+        copysign(reinterpret(Float16, y + adj), yy), copysign(reinterpret(Float16, x - adj), xx)
     end
   end
 end
@@ -63,4 +70,9 @@ end
     hi = b + a
     lo = a - (hi - b)
     return hi, lo
+end
+
+@inline function fast_two_sum(a::T, b::T) where {T<:AbstractFloat}
+    c, d = minmaxmag(a, b)
+    two_lohi_sum(c, d)
 end
