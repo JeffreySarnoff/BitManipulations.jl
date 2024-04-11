@@ -72,7 +72,23 @@ end
     return hi, lo
 end
 
-@inline function fast_two_sum(a::T, b::T) where {T<:AbstractFloat}
-    c, d = minmaxmag(a, b)
-    two_lohi_sum(c, d)
+@inline function faster_two_sum(xx::Float16, yy::Float16)
+    hi = xx + yy
+    if abs(xx) > abs(yy)
+        xx, yy = yy, xx
+    end
+    hi, yy - (hi - xx)
 end
+
+for (I, F) in ((:Int16, :Float16), (:Int32, :Float32), (:Int64, :Float64))
+    @eval begin
+        @inline function faster_two_sum(xx::$F, yy::$F)
+            hi = xx + yy
+            if abs(xx) > abs(yy)
+                xx, yy = yy, xx
+            end
+            hi, yy - (hi - xx)
+        end
+    end
+end
+
