@@ -4,7 +4,7 @@ export Float, as, bitsof, bit_string,
        BitInteger,
        mask_lsbs, mask_msbs, maskm1sbs, maskbits,
        filterlo, filterhi, clear_ms1b, clear_ls1b, 
-       leading_one, trailing_one# from Base
+       leading_one, trailing_one
 
 using Base: BitInteger
 
