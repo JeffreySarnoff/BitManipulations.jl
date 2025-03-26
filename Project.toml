@@ -1,7 +1,7 @@
 name = "BitManipulations"
 author = ["Jeffrey A. Sarnoff <jeffrey.sarnoff@gmail.com>"]
 uuid = "d8c3bba2-e8fe-4c04-99ae-b71bf6a1d94e"
-version = "0.1.0"
+version = "0.1.1"
 license = "MIT"
 keywords = ["bits", "low-level", "fast primitives"]
 
