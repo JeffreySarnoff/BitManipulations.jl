@@ -24,8 +24,8 @@ Base.@nospecializeinfer as(::Type{Float}, @nospecialize(x::AbstractFloat)) = x
 as(::Type{Signed}, @nospecialize(x::Unsigned)) = signed(x)
 as(::Type{Unsigned}, @nospecialize(x::Signed)) = unsigned(x)
 
-for (F, U, I) in ((Float16, UInt16, Int16), (Float32, UInt32, Int32),
-                  (Float64, UInt64, Int64))
+for (F, U, I) in ((:Float16, :UInt16, :Int16), (:Float32, :UInt32, :Int32),
+                  (:Float64, :UInt64, :Int64))
     @eval begin
         as(Type{Unsigned}, x::$F) = reinterpret($U, x)
         as(Type{Signed}, x::$F) = reinterpret($I, x)
@@ -33,6 +33,15 @@ for (F, U, I) in ((Float16, UInt16, Int16), (Float32, UInt32, Int32),
         as(Type{AbstractFloat}, x::$I) = reinterpret($F, x)
         as(Type{Float}, x::$U) = reinterpret($F, x)
         as(Type{Float}, x::$I) = reinterpret($F, x)
+    end
+end
+
+for (U, I) in ((:UInt8, :Int8))
+    @eval begin
+        as(Type{Signed}, x::$I) = x
+        as(Type{Unsigned}, x::$I) = reinterpret($U, x)
+        as(Type{Signed}, x::$U) = reinterpret($S, x)
+        as(Type{Unsigned}, x::$I) = x
     end
 end
 
