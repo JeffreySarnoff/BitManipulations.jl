@@ -8,6 +8,9 @@ mask_msbs(n::T) where {T<:BitInteger} = mask_lsbs(n) << (bitsof(T)-n)
 mask_msbs(::Type{T1}, n::T2) where {T1<:BitInteger, T2<:Integer} = 
     mask_lsbs(n) << (bitsof(T)-n)
 
+# mask after the sign bit
+mask_m1sbs(n::T) where {T<:BitInteger} = mask_lsbs(n) << (bitsof(T)-(n+1))
+
 maskbits(::Type{T1}, n::T2, offset::T2) where {T1<:BitInteger, T2<:Integer} =
     mask_lbs(T1, n) << offset
 
