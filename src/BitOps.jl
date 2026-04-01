@@ -158,10 +158,9 @@ export
     min_branchless, max_branchless
 =#
 # Type aliases for clarity
-const BitInteger = Base.BitInteger         # Union{Int8, Int16, Int32, Int64, Int128, UInt8, UInt16, UInt32, UInt64, UInt128}
-const UnsignedBitInteger = Union{UInt8,UInt16,UInt32,UInt64,UInt128}
-const SignedBitInteger = Union{Int8,Int16,Int32,Int64,Int128}
-
+const BitInteger = Base.BitInteger           # Union{Int8, Int16, Int32, Int64, Int128, UInt8, UInt16, UInt32, UInt64, UInt128}
+const UnsignedBitInteger = Base.BitUnsigned  # Union{UInt8,UInt16,UInt32,UInt64,UInt128}
+const SignedBitInteger = Base.BitSigned      # Union{Int8,Int16,Int32,Int64,Int128}
 
 # Runtime CPU feature detection (best-effort; falls back to software paths).
 # We query Julia's reflected image-target features to avoid host assumptions.
