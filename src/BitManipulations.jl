@@ -54,9 +54,11 @@ using Base: BitInteger
 
 abstract type Float <: AbstractFloat end
 
+include("BitOps.jl")
 include("type/support.jl")
 include("type/conversions.jl")
 include("operators.jl")
+
 
 end  # BitManipulations
 
